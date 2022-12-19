@@ -3,24 +3,22 @@
 #include <fstream>
 #include <list>
 #include <algorithm>   
+#include <map>
 using namespace std;
-//A X Taş
-//B Y KAĞIT
-//C Z MAKAS
-#define TAŞ A
-#define KAĞIT B
-#define MAKAS C
+void task1();
 
-#define _TAŞ X
-#define _KAĞIT Y
-#define _MAKAS Z
+void task2();
 int main()
 {
+	task2();
+}
+
+void task1() {
 	string computer[2][3] = {
 	{ "A", "B", "C" },
 	{ "0", "1", "2" },
 	};
-	string player2[2][3] = {
+	string player[2][3] = {
 	{ "X", "Y", "Z" },
 	{ "0", "1", "2" }
 	};
@@ -28,41 +26,54 @@ int main()
 	if (file.is_open()) {
 		string line;
 		int point = 0;
+		int _computer = 0; //computer
+		int _player = 0; //player2
 		while (getline(file, line)) {
 			string a = line.substr(0, 1);
 			string b = line.substr(2, 1);
-			
-				
-			for (int i = 0; i < 3; i++) {
-				
-				if (computer[0][i] == a && player2[0][i]==b) {
-					
-					
-					/*
-					if (((stoi(player2[1][i])+1 % 3)) == stoi(computer[1][i])) {
-						cout << "Player 2 won" << endl;
-					}
-					else if (((stoi(computer[1][i])+1 % 3) ) == stoi(player2[1][i])) {
-						cout << "Player 1 won" << endl;
-					}
-					else {
-						cout << "Draw" << endl;
-					}*/
-					
 
-					/*if ((_player2 + 1 >= 2 ? 0 : _player2 + 1) % 3 == _computer) { //computer win
-						point += (1 + _player2+1);
-					}
-					else if((_computer +1 >= 2 ? 0 : _computer + 1) % 3==_player2) { //player 2 win
-						point += (6 + _player2+1);
-					}
-					else { //draw
-						point += _player2+1;
-					}*/
-				}
+			for (int i = 0; i < 3; i++) {
+				if (computer[0][i] == a) { _computer = i; break; }
 			}
+			for (int i = 0; i < 3; i++) {
+				if (player[0][i] == b) { _player = i; break; }
+			}
+			if ((_computer + 1) % 3 == _player) {
+				point += ((_player + 1) + 6);
+				//cout << "Player win" << endl;
+			}
+			else if ((_player + 1) % 3 == _computer) {
+				point += ((_player + 1) + 0);
+				//cout << "Computer win" << endl;
+			}
+			else {
+				point += ((_player + 1) + 3);
+				//cout << "Draw" << endl;
+			}
+		}
+		cout << point << endl;
+	}
+}
+
+void task2() {
+	ifstream file("veri.txt");
+	if (file.is_open()) {
+		string line;
+		int point = 0;
+		while (getline(file, line)) {
+			char computer = line.substr(0, 1)[0];
+			computer -= 'A';
+			char player = line.substr(2, 1)[0];
+			player -= 'X';
 			
-			//cout << a << " - " << b << endl;
+			if (player == 2) 
+				player = (computer + 1) % 3 + 6;
+			else if (player == 0)
+				player = (computer + 2) % 3 + 0;
+			else
+				player = computer + 3;
+
+			point += player + 1;
 		}
 		cout << point << endl;
 	}
