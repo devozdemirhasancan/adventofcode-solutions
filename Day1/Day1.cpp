@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 #include <list>
-#include <algorithm>    // std::max
+#include <algorithm>  
 
 using namespace std;
 
